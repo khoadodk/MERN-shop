@@ -3,6 +3,7 @@ import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { Button } from 'antd';
+import Loading from '../../components/Loading/Loading';
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -41,24 +42,29 @@ const ForgotPassword = ({ history }) => {
 
   return (
     <div className='container col-md-6 offset-md-3 p-5'>
-      {loading ? <h4>Loading...</h4> : <h4>Forgot password</h4>}
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type='email'
-          className='form-control'
-          placeholder='Email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoFocus
-        />
-        <Button
-          type='submit'
-          className='btn btn-raised mt-3 float-right'
-          disabled={!email}>
-          Submit
-        </Button>
-      </form>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div>
+          <h4>Forgot password</h4>
+          <form onSubmit={handleSubmit}>
+            <input
+              type='email'
+              className='form-control'
+              placeholder='Email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoFocus
+            />
+            <Button
+              type='submit'
+              className='btn btn-raised mt-3 float-right'
+              disabled={!email}>
+              Submit
+            </Button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

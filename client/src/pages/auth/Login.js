@@ -1,20 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
-import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
+import { GoogleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { createOrUpdateUser } from '../../functions/auth';
+import Loading from '../../components/Loading/Loading';
 
 const Login = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [loading, setLoading] = React.useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
 
   let dispatch = useDispatch();
   let history = useHistory();
+
+  const roleBasedDirect = (res) => {
+    if (res.data.role === 'admin') {
+      history.push('/admin/dashboard');
+    } else {
+      history.push('/user/history');
+    }
+  };
 
   useEffect(() => {
     if (user && user.token) {
@@ -29,15 +39,23 @@ const Login = () => {
       const result = await auth.signInWithEmailAndPassword(email, password);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-      dispatch({
-        type: 'LOGGED_IN_USER',
-        payload: {
-          email: user.email,
-          token: idTokenResult.token
-        }
-      });
+
+      createOrUpdateUser(idTokenResult.token)
+        .then((res) => {
+          dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult.token,
+              role: res.data.role,
+              _id: res.data._id
+            }
+          });
+          roleBasedDirect(res);
+        })
+        .catch((err) => console.log(err));
       setLoading(false);
-      history.push('/');
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -51,15 +69,23 @@ const Login = () => {
       .then(async (result) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
-        dispatch({
-          type: 'LOGGED_IN_USER',
-          payload: {
-            email: user.email,
-            token: idTokenResult.token
-          }
-        });
+
+        createOrUpdateUser(idTokenResult.token)
+          .then((res) => {
+            dispatch({
+              type: 'LOGGED_IN_USER',
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                role: res.data.role,
+                _id: res.data._id
+              }
+            });
+            roleBasedDirect(res);
+          })
+          .catch((err) => console.log(err));
         setLoading(false);
-        history.push('/');
       })
       .catch((err) => {
         console.log(err);
@@ -86,20 +112,12 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         autoFocus
       />
-      <Button
+      <button
         type='submit'
         className='btn btn-raised mt-4 float-right'
-        disabled={!email || password.length < 6}
-        icon={<MailOutlined />}>
+        disabled={!email || password.length < 6}>
         Log in with Email
-      </Button>
-      <Button
-        type='submit'
-        className='btn mt-4'
-        onClick={googleLogin}
-        icon={<GoogleOutlined />}>
-        Log in with Google
-      </Button>
+      </button>
     </form>
   );
 
@@ -107,10 +125,26 @@ const Login = () => {
     <div className='container p-5'>
       <div className='row'>
         <div className='col-md-6 offset-md-3'>
-          {loading && <h4 className='text-danger'>Loading...</h4>}
-          {loginForm()}
-          Don't remember your password? Reset{' '}
-          <Link to='/forgot/password'>here</Link>.
+          {loading ? (
+            <Loading />
+          ) : (
+            <div>
+              <div>
+                {loginForm()}
+                <Button
+                  type='submit'
+                  className='btn mt-1'
+                  onClick={googleLogin}
+                  icon={<GoogleOutlined />}>
+                  Log in with Google
+                </Button>
+              </div>
+              <p>
+                Don't remember your password? Reset{' '}
+                <Link to='/forgot/password'>here</Link>.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

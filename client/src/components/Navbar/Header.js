@@ -41,7 +41,10 @@ const Header = () => {
         </Menu.Item>
 
         {user && (
-          <SubMenu icon={<SettingOutlined />} title={user.email?.split('@')[0]}>
+          <SubMenu
+            icon={<SettingOutlined />}
+            title={user.email?.split('@')[0]}
+            className='float-right'>
             <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
               Log Out
             </Menu.Item>
