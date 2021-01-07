@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { auth } from '../../firebase';
 
-import UserNav from '../../components/Navbar/UserNav';
-import Loading from '../../components/Loading/Loading';
+import UserNav from '../../components/navbar/UserNav';
+import Loading from '../../components/loading/Loading';
 
 const Password = () => {
   const [password, setPassword] = useState('');
@@ -50,10 +50,10 @@ const Password = () => {
   return (
     <div className='container-fluid'>
       <div className='row'>
-        <div className='col-md-2'>
+        <div className='col-md-3'>
           <UserNav />
         </div>
-        <div className='col-md-6 offset-md-2'>
+        <div className='col-md-6'>
           {loading ? <Loading /> : passwordUpdateForm()}
         </div>
       </div>

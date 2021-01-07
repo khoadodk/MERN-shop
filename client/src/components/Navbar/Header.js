@@ -5,7 +5,8 @@ import {
   SettingOutlined,
   UserAddOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  DashboardOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
@@ -34,7 +35,7 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <div className='mb-2'>
       <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
         <Menu.Item key='home' icon={<HomeOutlined />}>
           <Link to='/'>Home</Link>
@@ -45,6 +46,18 @@ const Header = () => {
             icon={<SettingOutlined />}
             title={user.email?.split('@')[0]}
             className='float-right'>
+            {user && user.role === 'subscriber' && (
+              <Menu.Item icon={<DashboardOutlined />}>
+                <Link to='/user/history'>Dashboard</Link>
+              </Menu.Item>
+            )}
+
+            {user && user.role === 'admin' && (
+              <Menu.Item icon={<DashboardOutlined />}>
+                <Link to='/admin/dashboard'>Dashboard</Link>
+              </Menu.Item>
+            )}
+
             <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
               Log Out
             </Menu.Item>
