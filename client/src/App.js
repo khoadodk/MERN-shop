@@ -10,7 +10,7 @@ import { currentUser } from './functions/auth';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
 
-import Header from './components/Navbar/Header';
+import Header from './components/navbar/Header';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import RegisterComplete from './pages/auth/RegisterComplete';
@@ -22,6 +22,8 @@ import Wishlist from './pages/user/Wishlist';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import CategoryCreate from './pages/admin/category/CategoryCreate';
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
+import SubCategoryCreate from './pages/admin/subcategory/SubCategoryCreate';
+import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -71,6 +73,16 @@ const App = () => {
           exact
           path='/admin/category/:slug'
           component={CategoryUpdate}
+        />
+        <AdminRoute
+          exact
+          path='/admin/subcategory'
+          component={SubCategoryCreate}
+        />
+        <AdminRoute
+          exact
+          path='/admin/subcategory/:slug'
+          component={SubCategoryUpdate}
         />
       </Switch>
     </>

@@ -3,7 +3,7 @@ import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { Button } from 'antd';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/loading/Loading';
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState('');

@@ -6,7 +6,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { GoogleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { createOrUpdateUser } from '../../functions/auth';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/loading/Loading';
 
 const Login = () => {
   const [email, setEmail] = useState('');
