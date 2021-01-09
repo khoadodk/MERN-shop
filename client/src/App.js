@@ -24,6 +24,7 @@ import CategoryCreate from './pages/admin/category/CategoryCreate';
 import CategoryUpdate from './pages/admin/category/CategoryUpdate';
 import SubCategoryCreate from './pages/admin/subcategory/SubCategoryCreate';
 import SubCategoryUpdate from './pages/admin/subcategory/SubCategoryUpdate';
+import ProductCreate from './pages/admin/product/ProductCreate';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
+        console.log('token', idTokenResult.token);
 
         currentUser(idTokenResult.token)
           .then((res) => {
@@ -84,6 +86,7 @@ const App = () => {
           path='/admin/subcategory/:slug'
           component={SubCategoryUpdate}
         />
+        <AdminRoute exact path='/admin/product' component={ProductCreate} />
       </Switch>
     </>
   );

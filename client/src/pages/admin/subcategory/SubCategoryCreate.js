@@ -132,7 +132,8 @@ const SubCategoryCreate = () => {
                   <List.Item key={sub._id}>
                     {sub.name}{' '}
                     <Typography.Text mark>
-                      {categories.filter((c) => c._id === sub.parent)[0].name}
+                      {categories.length > 0 &&
+                        categories.filter((c) => c._id === sub.parent)[0].name}
                     </Typography.Text>
                     <div className='float-right'>
                       <span onClick={() => handleDelete(sub.slug)}>
