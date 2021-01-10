@@ -4,8 +4,8 @@ export const getSubCategories = async () => {
   return await axios.get(`${process.env.REACT_APP_API}/subcategories`);
 };
 
-export const getSubCategory = async (slug) => {
-  return await axios.get(`${process.env.REACT_APP_API}/subcategory/${slug}`);
+export const getSubCategory = async (_id) => {
+  return await axios.get(`${process.env.REACT_APP_API}/subcategory/${_id}`);
 };
 
 export const createSubCategory = async (subcategory, authtoken) => {
@@ -20,9 +20,9 @@ export const createSubCategory = async (subcategory, authtoken) => {
   );
 };
 
-export const updateSubCategory = async (slug, subcategory, authtoken) => {
+export const updateSubCategory = async (_id, subcategory, authtoken) => {
   return await axios.put(
-    `${process.env.REACT_APP_API}/subcategory/${slug}`,
+    `${process.env.REACT_APP_API}/subcategory/${_id}`,
     subcategory,
     {
       headers: {
@@ -32,13 +32,10 @@ export const updateSubCategory = async (slug, subcategory, authtoken) => {
   );
 };
 
-export const deleteSubCategory = async (slug, authtoken) => {
-  return await axios.delete(
-    `${process.env.REACT_APP_API}/subcategory/${slug}`,
-    {
-      headers: {
-        authtoken
-      }
+export const deleteSubCategory = async (_id, authtoken) => {
+  return await axios.delete(`${process.env.REACT_APP_API}/subcategory/${_id}`, {
+    headers: {
+      authtoken
     }
-  );
+  });
 };

@@ -8,6 +8,7 @@ import Loading from '../../../components/loading/Loading';
 
 import { createProduct } from '../../../functions/product';
 import { getCategories, getCategorySubs } from '../../../functions/category';
+import FileUpload from '../../../components/forms/FileUpload';
 
 const initialState = {
   title: '',
@@ -77,7 +78,7 @@ const ProductCreate = () => {
       .then(() => {
         setLoading(false);
         toast.success(`${title} created!`);
-        setValues(initialState);
+        setValues({ ...initialState, images: [] });
       })
       .catch((err) => {
         setLoading(false);
@@ -101,6 +102,8 @@ const ProductCreate = () => {
     });
     setShowSubCat(true);
   };
+
+  console.log(values.images);
 
   return (
     <div className='container-fluid'>
@@ -211,6 +214,8 @@ const ProductCreate = () => {
                       ))}
                   </Select>
                 )}
+
+                <FileUpload values={values} setValues={setValues} />
 
                 <button
                   type='submit'

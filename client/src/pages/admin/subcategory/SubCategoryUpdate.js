@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Select } from 'antd';
 import AdminNav from '../../../components/navbar/AdminNav';
 import Loading from '../../../components/loading/Loading';
-import { getCategories } from '../../../functions/category';
+import { getCategories, getCategory } from '../../../functions/category';
 import {
   getSubCategory,
   updateSubCategory
@@ -28,7 +28,7 @@ const SubCategoryUpdate = ({ history, match }) => {
     getCategories().then((c) => setCategories(c.data));
 
   const loadSub = () =>
-    getSubCategory(match.params.slug).then((s) => {
+    getSubCategory(match.params._id).then((s) => {
       setName(s.data.name);
       setParent(s.data.parent);
     });
@@ -37,7 +37,7 @@ const SubCategoryUpdate = ({ history, match }) => {
     e.preventDefault();
     setLoading(true);
 
-    updateSubCategory(match.params.slug, { name, parent }, user.token)
+    updateSubCategory(match.params._id, { name, parent }, user.token)
       .then(() => {
         setLoading(false);
         toast.success(`SubCategory of ${name} updated!`);

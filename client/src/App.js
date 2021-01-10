@@ -83,7 +83,7 @@ const App = () => {
         />
         <AdminRoute
           exact
-          path='/admin/subcategory/:slug'
+          path='/admin/subcategory/:_id'
           component={SubCategoryUpdate}
         />
         <AdminRoute exact path='/admin/product' component={ProductCreate} />

@@ -63,10 +63,10 @@ const SubCategoryCreate = () => {
       });
   };
 
-  const handleDelete = async (slug) => {
+  const handleDelete = async (_id) => {
     if (window?.confirm('Delete?')) {
       setLoading(true);
-      await deleteSubCategory(slug, user.token)
+      await deleteSubCategory(_id, user.token)
         .then((res) => {
           setLoading(false);
           toast.success(
@@ -136,10 +136,10 @@ const SubCategoryCreate = () => {
                         categories.filter((c) => c._id === sub.parent)[0].name}
                     </Typography.Text>
                     <div className='float-right'>
-                      <span onClick={() => handleDelete(sub.slug)}>
+                      <span onClick={() => handleDelete(sub._id)}>
                         <DeleteOutlined className='btn btn-sm text-danger' />
                       </span>
-                      <Link to={`/admin/subcategory/${sub.slug}`}>
+                      <Link to={`/admin/subcategory/${sub._id}`}>
                         <EditOutlined className='btn btn-sm' />
                       </Link>
                     </div>
