@@ -28,6 +28,17 @@ const productSchema = new mongoose.Schema(
       trim: true,
       maxlength: 32
     },
+
+    quantity: { type: Number, default: 1 },
+    sold: {
+      type: Number,
+      default: 0
+    },
+    images: { type: Array },
+    shipping: {
+      type: String,
+      default: 'no'
+    },
     category: {
       type: ObjectId,
       ref: 'Category'
@@ -37,22 +48,7 @@ const productSchema = new mongoose.Schema(
         type: ObjectId,
         ref: 'SubCategory'
       }
-    ],
-    quantity: Number,
-    sold: {
-      type: Number,
-      default: 0
-    },
-    images: { type: Array },
-    shipping: {
-      type: String
-    },
-    color: {
-      type: String
-    },
-    brand: {
-      type: String
-    }
+    ]
   },
   { timestamps: true }
 );

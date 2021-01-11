@@ -1,49 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 
 import AdminNav from '../../../components/navbar/AdminNav';
 import Loading from '../../../components/loading/Loading';
 
-import { createProduct } from '../../../functions/product';
-
+import { getProduct, updateProduct } from '../../../functions/product';
 import ProductForm from '../../../components/forms/ProductForm';
 
-const initialState = {
-  title: '',
-  description: '',
-  price: '',
-  category: '',
-  subs: [],
-  shipping: '',
-  quantity: '',
-  images: []
-};
-
-const ProductCreate = () => {
+const ProductUpdate = () => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState(initialState);
+  const [values, setValues] = useState({});
 
+  const { _id } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    loadProduct();
+  }, []);
+
+  const loadProduct = () => {
+    getProduct(_id).then((res) => {
+      setValues(res.data);
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    createProduct(values, user.token)
+    updateProduct(_id, values, user.token)
       .then((res) => {
         setLoading(false);
-        toast.success(`${res.data.title} created!`);
-        setValues({ ...initialState, images: [] });
+        toast.success(`${res.data.title} updated!`);
       })
       .catch((err) => {
         setLoading(false);
-        if (err.response.status === 400) {
-          console.log(err.response);
-          toast.error(err.response.data);
-        } else {
-          toast.error(`Fail to create product!`);
-        }
+        console.log(err);
+        toast.error(`Fail to update product!`);
       });
   };
 
@@ -62,8 +57,7 @@ const ProductCreate = () => {
             <Loading />
           ) : (
             <div>
-              <h4>Create Product</h4>
-
+              <h4>Update Product</h4>
               <ProductForm
                 values={values}
                 setValues={setValues}
@@ -78,4 +72,4 @@ const ProductCreate = () => {
   );
 };
 
-export default ProductCreate;
+export default ProductUpdate;

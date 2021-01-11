@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Select } from 'antd';
 import AdminNav from '../../../components/navbar/AdminNav';
 import Loading from '../../../components/loading/Loading';
-import { getCategories, getCategory } from '../../../functions/category';
+import { getCategories } from '../../../functions/category';
 import {
   getSubCategory,
   updateSubCategory
