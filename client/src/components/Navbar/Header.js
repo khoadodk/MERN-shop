@@ -35,7 +35,7 @@ const Header = () => {
   };
 
   return (
-    <div className='mb-2'>
+    <div>
       <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
         <Menu.Item key='home' icon={<HomeOutlined />}>
           <Link to='/'>Home</Link>

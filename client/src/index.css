@@ -1,0 +1,8 @@
+.slider img {
+    height: 100%;
+    object-fit: cover;
+}
+/* ant design icons */
+.anticon {
+    font-size: 20px !important;
+}

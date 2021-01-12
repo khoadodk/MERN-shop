@@ -7,6 +7,7 @@ exports.create = async (req, res) => {
     const newProduct = await new Product(req.body).save();
     res.json(newProduct);
   } catch (err) {
+    console.log('CREATE PRODUCT FAIL', err);
     res.status(400).send('Fail to create product.');
   }
 };
@@ -24,7 +25,10 @@ exports.listAll = async (req, res) => {
 exports.read = async (req, res) => {
   const product = await Product.findOne({
     _id: req.params._id
-  }).exec();
+  })
+    .populate('category')
+    .populate('subs')
+    .exec();
   res.json(product);
 };
 
@@ -37,7 +41,7 @@ exports.update = async (req, res) => {
     );
     res.json(updatedProduct);
   } catch (err) {
-    console.log(err);
+    console.log('PRODUCT UPDATE FAILED', err);
     res.status(400).send('Fail to update the product.');
   }
 };
@@ -50,5 +54,35 @@ exports.remove = async (req, res) => {
     res.json(deletedPropduct);
   } catch (err) {
     res.status(400).send('Fail to delete product.');
+  }
+};
+
+// PAGINATION with 3 items per page
+exports.list = async (req, res) => {
+  try {
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 3;
+
+    const products = await Product.find({})
+      .skip((currentPage - 1) * perPage)
+      .populate('category')
+      .populate('subs')
+      .sort([[sort, order]])
+      .limit(perPage)
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send('Fail to list product.');
+  }
+};
+
+exports.productsCount = async (req, res) => {
+  try {
+    const total = await Product.find({}).estimatedDocumentCount().exec();
+    res.json(total);
+  } catch (err) {
+    console.log(err);
   }
 };

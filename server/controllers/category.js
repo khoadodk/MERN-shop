@@ -8,6 +8,7 @@ exports.create = async (req, res) => {
     const category = await new Category({ name, slug: slugify(name) }).save();
     res.json(category);
   } catch (err) {
+    console.log('CAT CREATE FAILED', err);
     res.status(400).send('Fail to create the category.');
   }
 };
@@ -32,6 +33,7 @@ exports.update = async (req, res) => {
     );
     res.json(updatedCategory);
   } catch (err) {
+    console.log('CAT UPDATE FAILED', err);
     res.status(400).send('Fail to update the category.');
   }
 };
@@ -43,6 +45,7 @@ exports.remove = async (req, res) => {
     });
     res.json(deletedCategory);
   } catch (err) {
+    console.log('CAT DELETE FAILED', err);
     res.status(400).send('Fail to delete the category.');
   }
 };

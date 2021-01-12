@@ -38,6 +38,7 @@ exports.update = async (req, res) => {
     );
     res.json(updatedsubCategory);
   } catch (err) {
+    console.log('SUB UPDATE FAILED', err);
     res.status(400).send('Fail to update the subcategory.');
   }
 };
@@ -49,6 +50,7 @@ exports.remove = async (req, res) => {
     });
     res.json(deletedsubCategory);
   } catch (err) {
+    console.log('SUB DELETE FAILED', err);
     res.status(400).send('Fail to delete the subcategory.');
   }
 };

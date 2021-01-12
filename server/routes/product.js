@@ -10,13 +10,20 @@ const {
   read,
   remove,
   listAll,
-  update
+  update,
+  list,
+  productsCount
 } = require('../controllers/product');
 
+// ORDER MATTERS
 router.post('/product', authCheck, adminCheck, create);
+router.get('/products/total', productsCount);
+
 router.get('/products/:count', listAll);
 router.get('/product/:_id', read);
 router.put('/product/:_id', authCheck, adminCheck, update);
 router.delete('/product/:_id', authCheck, adminCheck, remove);
+
+router.post('/products', list);
 
 module.exports = router;

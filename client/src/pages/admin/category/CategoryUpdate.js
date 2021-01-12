@@ -14,7 +14,7 @@ const CategoryUpdate = ({ history, match }) => {
 
   useEffect(() => {
     setName(match.params.slug);
-  }, []);
+  }, [match.params.slug]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
