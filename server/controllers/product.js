@@ -127,3 +127,22 @@ exports.productStar = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.listRelated = async (req, res) => {
+  try {
+    const limit = req.body.limit || 3;
+    const product = await Product.findById(req.params._id).exec();
+    const related = await Product.find({
+      _id: { $ne: product._id },
+      category: product.category
+    })
+      .limit(limit)
+      .populate('category')
+      .populate('subs')
+      .populate('postedBy')
+      .exec();
+    res.json(related);
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SingleProduct from '../components/cards/SingleProduct';
-import { getProduct, postProductStar } from '../functions/product';
+import { getProduct, getRelated, postProductStar } from '../functions/product';
 import Loading from '../components/loading/Loading';
+import ProductCard from '../components/cards/ProductCard';
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
+  const [related, setRelated] = useState([]);
 
   const { _id } = match.params;
   const { user } = useSelector((state) => ({ ...state }));
@@ -31,6 +33,7 @@ const Product = ({ match }) => {
       .then((res) => {
         setLoading(false);
         setProduct(res.data);
+        getRelated(res.data._id).then((res) => setRelated(res.data));
       })
       .catch((err) => {
         setLoading(false);
@@ -48,11 +51,28 @@ const Product = ({ match }) => {
       {loading ? (
         <Loading />
       ) : (
-        <SingleProduct
-          product={product}
-          handleChangeRating={handleChangeRating}
-          rating={rating}
-        />
+        <>
+          <div className='mb-5'>
+            <SingleProduct
+              product={product}
+              handleChangeRating={handleChangeRating}
+              rating={rating}
+            />
+          </div>
+          <hr />
+          <h4 className='text-center py-3'>Related Products</h4>
+          <div className='row pb-3'>
+            {related.length ? (
+              related.map((r) => (
+                <div className='col-md-4' key={r._id}>
+                  <ProductCard product={r} />
+                </div>
+              ))
+            ) : (
+              <div className='text-center'>No Products Found!</div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
