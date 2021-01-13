@@ -48,6 +48,12 @@ const productSchema = new mongoose.Schema(
         type: ObjectId,
         ref: 'SubCategory'
       }
+    ],
+    ratings: [
+      {
+        star: Number,
+        postedBy: { type: ObjectId, ref: 'User' }
+      }
     ]
   },
   { timestamps: true }

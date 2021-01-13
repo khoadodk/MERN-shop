@@ -12,7 +12,8 @@ const {
   listAll,
   update,
   list,
-  productsCount
+  productsCount,
+  productStar
 } = require('../controllers/product');
 
 // ORDER MATTERS
@@ -25,5 +26,7 @@ router.put('/product/:_id', authCheck, adminCheck, update);
 router.delete('/product/:_id', authCheck, adminCheck, remove);
 
 router.post('/products', list);
+// rating
+router.put('/product/star/:productId', authCheck, productStar);
 
 module.exports = router;

@@ -4,14 +4,18 @@ import { Link } from 'react-router-dom';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import StarRatings from 'react-star-ratings';
+
 import noImage from '../../images/no-image.png';
 import ProductListItems from './ProductListItems';
+import RatingModal from '../modals/RatingModal';
+import { showAverage } from '../../functions/rating';
 
 const { TabPane } = Tabs;
 
-const SingleProduct = ({ product }) => {
-  const { title, description, images } = product;
-
+const SingleProduct = ({ product, handleChangeRating, rating }) => {
+  const { title, description, images, _id } = product;
+  console.log(product);
   return (
     <div className='row'>
       <div className='col-md-7'>
@@ -37,7 +41,18 @@ const SingleProduct = ({ product }) => {
       </div>
 
       <div className='col-md-5'>
-        <h1 className='py-1 text-center text-primary'>{title}</h1>
+        <h1 className='py-3 m-0 text-center text-primary mark'>{title}</h1>
+
+        {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className='text-center py-2'>
+            <span>
+              <StarRatings starDimension='2em' editing={false} /> (0)
+            </span>
+          </div>
+        )}
+
         <Card
           actions={[
             <>
@@ -45,7 +60,17 @@ const SingleProduct = ({ product }) => {
             </>,
             <Link to=''>
               <HeartOutlined className='text-danger' /> <br /> Add to Wishlist
-            </Link>
+            </Link>,
+            <RatingModal>
+              <StarRatings
+                rating={rating}
+                starRatedColor='red'
+                changeRating={handleChangeRating}
+                numberOfStars={5}
+                name={_id}
+                isSelectable={true}
+              />
+            </RatingModal>
           ]}>
           <ProductListItems product={product} />
         </Card>
