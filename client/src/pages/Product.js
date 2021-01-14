@@ -69,7 +69,7 @@ const Product = ({ match }) => {
                 </div>
               ))
             ) : (
-              <div className='text-center'>No Products Found!</div>
+              <div></div>
             )}
           </div>
         </>
