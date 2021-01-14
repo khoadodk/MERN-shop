@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu } from 'antd';
 import {
-  HomeOutlined,
+  AppstoreOutlined,
   SettingOutlined,
-  UserAddOutlined,
   UserOutlined,
+  UserAddOutlined,
   LogoutOutlined,
-  DashboardOutlined
+  ShoppingOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Search from '../forms/Search';
 
 const { SubMenu, Item } = Menu;
 
 const Header = () => {
-  const [current, setCurrent] = React.useState('');
+  const [current, setCurrent] = useState('home');
+
   let dispatch = useDispatch();
   let { user } = useSelector((state) => ({ ...state }));
+
   let history = useHistory();
 
   const handleClick = (e) => {
-    setCurrent({ current: e.key });
+    // console.log(e.key);
+    setCurrent(e.key);
   };
 
   const logout = () => {
@@ -35,53 +39,54 @@ const Header = () => {
   };
 
   return (
-    <div>
-      <Menu
-        onClick={handleClick}
-        selectedKeys={[current]}
-        mode='horizontal'
-        theme='dark'>
-        <Menu.Item key='home' icon={<HomeOutlined />}>
-          <Link to='/'>Home</Link>
-        </Menu.Item>
+    <Menu onClick={handleClick} selectedKeys={[current]} mode='horizontal'>
+      <Item key='home' icon={<AppstoreOutlined />}>
+        <Link to='/'>Home</Link>
+      </Item>
 
-        {user && (
-          <SubMenu
-            icon={<SettingOutlined />}
-            title={user.email?.split('@')[0]}
-            className='float-right'>
-            {user && user.role === 'subscriber' && (
-              <Menu.Item icon={<DashboardOutlined />}>
-                <Link to='/user/history'>Dashboard</Link>
-              </Menu.Item>
-            )}
+      <Item key='shop' icon={<ShoppingOutlined />}>
+        <Link to='/shop'>Shop</Link>
+      </Item>
 
-            {user && user.role === 'admin' && (
-              <Menu.Item icon={<DashboardOutlined />}>
-                <Link to='/admin/dashboard'>Dashboard</Link>
-              </Menu.Item>
-            )}
+      {!user && (
+        <Item key='register' icon={<UserAddOutlined />} className='float-right'>
+          <Link to='/register'>Register</Link>
+        </Item>
+      )}
 
-            <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
-              Log Out
-            </Menu.Item>
-          </SubMenu>
-        )}
-        {!user && (
-          <>
-            <Item key='login' icon={<UserOutlined />} className='float-right'>
-              <Link to='/login'>Login</Link>
+      {!user && (
+        <Item key='login' icon={<UserOutlined />} className='float-right'>
+          <Link to='/login'>Login</Link>
+        </Item>
+      )}
+
+      {user && (
+        <SubMenu
+          icon={<SettingOutlined />}
+          title={user.email && user.email.split('@')[0]}
+          className='float-right'>
+          {user && user.role === 'subscriber' && (
+            <Item>
+              <Link to='/user/history'>Dashboard</Link>
             </Item>
-            <Item
-              key='register'
-              icon={<UserAddOutlined />}
-              className='float-right'>
-              <Link to='/register'>Register</Link>
+          )}
+
+          {user && user.role === 'admin' && (
+            <Item>
+              <Link to='/admin/dashboard'>Dashboard</Link>
             </Item>
-          </>
-        )}
-      </Menu>
-    </div>
+          )}
+
+          <Item icon={<LogoutOutlined />} onClick={logout}>
+            Logout
+          </Item>
+        </SubMenu>
+      )}
+
+      <span className='float-right p-1'>
+        <Search />
+      </span>
+    </Menu>
   );
 };
 

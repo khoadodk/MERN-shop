@@ -146,3 +146,48 @@ exports.listRelated = async (req, res) => {
     console.log(err);
   }
 };
+
+// SEARCH AND FILTER
+const handleQuery = async (req, res, query) => {
+  try {
+    const products = await Product.find({ $text: { $search: query } })
+      .populate('category', '_id name')
+      .populate('subs', '_id name')
+      .populate('postedBy', '_id name')
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const handlePrice = async (req, res, price) => {
+  try {
+    const products = await Product.find({
+      price: {
+        $gte: price[0],
+        $lte: price[1]
+      }
+    })
+      .populate('category', '_id name')
+      .populate('subs', '_id name')
+      .populate('postedBy', '_id name')
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.searchFilters = async (req, res) => {
+  const { query, price } = req.body;
+  console.log('req body', req.body);
+  // string
+  if (query) {
+    await handleQuery(req, res, query);
+  }
+  // [0, 20]
+  if (price) {
+    await handlePrice(req, res, price);
+  }
+};

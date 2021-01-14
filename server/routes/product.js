@@ -14,7 +14,8 @@ const {
   list,
   productsCount,
   productStar,
-  listRelated
+  listRelated,
+  searchFilters
 } = require('../controllers/product');
 
 // ORDER MATTERS
@@ -31,5 +32,7 @@ router.post('/products', list);
 router.put('/product/star/:productId', authCheck, productStar);
 // related
 router.get('/product/related/:_id', listRelated);
+// search
+router.post('/search/filters', searchFilters);
 
 module.exports = router;
