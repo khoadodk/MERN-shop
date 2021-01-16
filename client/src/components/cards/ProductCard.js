@@ -1,14 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Tooltip } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import StarRating from 'react-star-ratings';
+import { useDispatch, useSelector } from 'react-redux';
 
 import noImage from '../../images/no-image.png';
 import { showAverage } from '../../functions/rating';
 
 const ProductCard = ({ product }) => {
+  const [tooltip, setTooltip] = useState('Add to Cart');
+
+  const dispatch = useDispatch();
+  const { cart, user } = useSelector((state) => ({ ...state }));
+
   const { title, description, images, _id } = product;
+
+  const handleAddToCart = () => {
+    setTooltip('Added');
+    let cart = [];
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'));
+      }
+      cart.push({
+        ...product,
+        count: 1
+      });
+      // Remove duplicates
+      const uniqueCart = cart.filter((obj, index) => {
+        const _obj = JSON.stringify(obj);
+        return (
+          index ===
+          cart.findIndex((obj) => {
+            return JSON.stringify(obj) === _obj;
+          })
+        );
+      });
+      localStorage.setItem('cart', JSON.stringify(uniqueCart));
+
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: uniqueCart
+      });
+
+      dispatch({
+        type: 'SET_VISIBLE',
+        payload: true
+      });
+    }
+  };
 
   return (
     <>
@@ -37,10 +78,10 @@ const ProductCard = ({ product }) => {
               <EyeOutlined className='text-info' />
             </Link>
           </Tooltip>,
-          <Tooltip title='Add to Cart'>
-            <Link to={`/cart`}>
+          <Tooltip title={tooltip}>
+            <a onClick={handleAddToCart}>
               <ShoppingCartOutlined className='text-info' />
-            </Link>
+            </a>
           </Tooltip>
         ]}>
         <Card.Meta
