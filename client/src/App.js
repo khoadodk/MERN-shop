@@ -32,6 +32,7 @@ import Category from './pages/Category';
 import SubCategory from './pages/SubCategory';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import SideDrawer from './components/drawer/SideDrawer';
 
 const App = () => {
@@ -107,6 +108,7 @@ const App = () => {
         <Route exact path='/subcategory/:_id' component={SubCategory} />
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
+        <Route exact path='/checkout' component={Checkout} />
       </Switch>
     </>
   );

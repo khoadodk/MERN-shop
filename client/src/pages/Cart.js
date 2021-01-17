@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout';
+import { userCart } from '../functions/user';
 
-const Cart = () => {
+const Cart = ({ history }) => {
   const dispatch = useDispatch();
   const { user, cart } = useSelector((state) => ({ ...state }));
 
@@ -15,8 +16,15 @@ const Cart = () => {
     }, 0);
   };
 
-  const saveOrderToDb = () => {};
-  console.log(cart);
+  const saveOrderToDb = () => {
+    userCart(cart, user.token)
+      .then((res) => {
+        if (res.data.ok) history.push('/checkout');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const showCartItems = () => (
     <table className='table table-bordered text-center'>
@@ -70,7 +78,7 @@ const Cart = () => {
               type='primary'
               onClick={saveOrderToDb}
               disabled={!cart.length}>
-              Process to checkout
+              Process to Checkout
             </Button>
           ) : (
             <Button type='primary'>
