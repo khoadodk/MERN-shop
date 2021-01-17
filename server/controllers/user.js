@@ -1,6 +1,7 @@
 const Cart = require('../models/cart');
 const Product = require('../models/product');
 const User = require('../models/user');
+const Coupon = require('../models/coupon');
 
 exports.userCart = async (req, res) => {
   try {
@@ -75,6 +76,47 @@ exports.saveAddress = async (req, res) => {
     res.json({ ok: true });
   } catch (err) {
     res.status(400).send("Fail to update user's address");
+    console.log(err);
+  }
+};
+
+exports.applyCouponToUserCart = async (req, res) => {
+  try {
+    const { coupon } = req.body;
+
+    const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+    // Invalid Coupon
+    if (!validCoupon) {
+      return res.json({ err: 'Invalid Coupon' });
+    }
+    // Expired Coupon
+    if (validCoupon.expiry < new Date()) {
+      console.log(validCoupon.expiry, new Date());
+      return res.json({ err: 'Expired Coupon' });
+    }
+    // Find the user and update the user cart with totalAfterDiscount
+    const user = await User.findOne({ email: req.user.email })
+      .populate('products.product', '_id title price')
+      .exec();
+    const { cartTotal } = await Cart.findOne({
+      orderedBy: user._id
+    }).exec();
+    const totalAfterDiscount = (
+      cartTotal -
+      (cartTotal * validCoupon.discount) / 100
+    ).toFixed(2);
+    const updatedCart = await Cart.findOneAndUpdate(
+      { orderedBy: user._id },
+      { totalAfterDiscount },
+      { new: true }
+    ).exec();
+    // Valid coupon but applied to cart already
+    if (totalAfterDiscount == updatedCart.totalAfterDiscount) {
+      return res.json({ err: 'The coupon already applied to cart!' });
+    }
+    res.json(totalAfterDiscount);
+  } catch (err) {
+    res.status(400).send('Fail to apply coupon to cart');
     console.log(err);
   }
 };

@@ -34,6 +34,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import SideDrawer from './components/drawer/SideDrawer';
+import CouponCreate from './pages/admin/coupon/CouponCreate';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -103,6 +104,8 @@ const App = () => {
           path='/admin/product/:_id'
           component={ProductUpdate}
         />
+        <AdminRoute exact path='/admin/coupon' component={CouponCreate} />
+
         <Route exact path='/product/:_id' component={Product} />
         <Route exact path='/category/:slug' component={Category} />
         <Route exact path='/subcategory/:_id' component={SubCategory} />

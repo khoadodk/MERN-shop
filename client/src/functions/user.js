@@ -19,8 +19,22 @@ export const emptyUserCart = async (authtoken) =>
     headers: { authtoken }
   });
 
-export const saveAddress = async (authtoken) => {
-  await axios.post(`${process.env.REACT_APP_API}/user/address`, {
-    headers: { authtoken }
-  });
-};
+export const saveAddress = async (address, authtoken) =>
+  await axios.post(
+    `${process.env.REACT_APP_API}/user/address`,
+    { address },
+    {
+      headers: { authtoken }
+    }
+  );
+
+export const applyCoupon = async (authtoken, coupon) =>
+  await axios.post(
+    `${process.env.REACT_APP_API}/user/cart/coupon`,
+    { coupon },
+    {
+      headers: {
+        authtoken
+      }
+    }
+  );
