@@ -35,6 +35,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import SideDrawer from './components/drawer/SideDrawer';
 import CouponCreate from './pages/admin/coupon/CouponCreate';
+import Payment from './pages/Payment';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -112,6 +113,7 @@ const App = () => {
         <Route exact path='/shop' component={Shop} />
         <Route exact path='/cart' component={Cart} />
         <Route exact path='/checkout' component={Checkout} />
+        <Route exact path='/payment' component={Payment} />
       </Switch>
     </>
   );

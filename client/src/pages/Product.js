@@ -16,6 +16,7 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     loadSingleProduct();
+    // eslint-disable-next-line
   }, [_id]);
 
   useEffect(() => {

@@ -18,6 +18,7 @@ const ProductUpdate = () => {
 
   useEffect(() => {
     loadProduct();
+    // eslint-disable-next-line
   }, []);
 
   const loadProduct = () => {

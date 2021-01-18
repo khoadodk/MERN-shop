@@ -30,6 +30,7 @@ const BestSellers = () => {
 
   useEffect(() => {
     loadAllProducts();
+    // eslint-disable-next-line
   }, [page]);
 
   useEffect(() => {

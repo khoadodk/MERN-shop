@@ -13,7 +13,7 @@ import {
   applyCoupon
 } from '../functions/user';
 
-const Checkout = () => {
+const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState('');
@@ -27,6 +27,7 @@ const Checkout = () => {
 
   useEffect(() => {
     user && loadUserCart();
+    // eslint-disable-next-line
   }, [user]);
 
   const loadUserCart = () => {
@@ -81,7 +82,7 @@ const Checkout = () => {
         if (res.data.err) {
           toast.error(res.data.err);
           dispatch({
-            type: 'COUPN_APPLIED',
+            type: 'COUPON_APPLIED',
             payload: true
           });
           return;
@@ -90,7 +91,7 @@ const Checkout = () => {
         toast.success('Coupon Applied!');
         // update redux store
         dispatch({
-          type: 'COUPN_APPLIED',
+          type: 'COUPON_APPLIED',
           payload: true
         });
       })
@@ -158,6 +159,7 @@ const Checkout = () => {
         <div className='row'>
           <div className='col-md-6'>
             <Button
+              onClick={() => history.push('/payment')}
               type='primary'
               disabled={!isAddressSaved || !products.length}>
               Place Order

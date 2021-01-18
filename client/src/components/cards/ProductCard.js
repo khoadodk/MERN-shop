@@ -3,7 +3,7 @@ import { Card, Tooltip } from 'antd';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import StarRating from 'react-star-ratings';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import noImage from '../../images/no-image.png';
 import { showAverage } from '../../functions/rating';
@@ -12,7 +12,6 @@ const ProductCard = ({ product }) => {
   const [tooltip, setTooltip] = useState('Add to Cart');
 
   const dispatch = useDispatch();
-  const { cart, user } = useSelector((state) => ({ ...state }));
 
   const { title, description, images, _id } = product;
 

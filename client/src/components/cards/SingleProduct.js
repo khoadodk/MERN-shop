@@ -5,7 +5,7 @@ import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import StarRatings from 'react-star-ratings';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import noImage from '../../images/no-image.png';
 import ProductListItems from './ProductListItems';
@@ -96,7 +96,7 @@ const SingleProduct = ({ product, handleChangeRating, rating }) => {
                 Cart
               </a>
             </Tooltip>,
-            ,
+
             <Link to=''>
               <HeartOutlined className='text-danger' /> <br /> Add to Wishlist
             </Link>,

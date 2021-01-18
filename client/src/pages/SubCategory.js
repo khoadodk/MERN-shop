@@ -22,7 +22,7 @@ const SubCategory = ({ match }) => {
         setLoading(false);
         console.log(err);
       });
-  }, []);
+  }, [_id]);
 
   return (
     <div className='container-fluid'>

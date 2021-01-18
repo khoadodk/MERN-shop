@@ -22,6 +22,7 @@ const Category = ({ match }) => {
         setLoading(false);
         console.log(err);
       });
+    // eslint-disable-next-line
   }, []);
 
   return (

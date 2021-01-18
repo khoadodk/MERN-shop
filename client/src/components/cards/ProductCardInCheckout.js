@@ -28,7 +28,10 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem('cart'));
       }
       cart.map((product, i) => {
-        if (product._id == p._id) cart[i].count = count;
+        if (product._id === p._id) {
+          cart[i].count = count;
+        }
+        return cart;
       });
 
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -46,7 +49,10 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem('cart'));
       }
       cart.map((product, i) => {
-        if (product._id == p._id) cart.splice(i, 1);
+        if (product._id === p._id) {
+          cart.splice(i, 1);
+        }
+        return cart;
       });
 
       localStorage.setItem('cart', JSON.stringify(cart));

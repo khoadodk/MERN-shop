@@ -21,9 +21,9 @@ const Shop = () => {
   const [isPrice, setIsPrice] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
-  const [star, setStar] = useState('');
+  const [, setStar] = useState('');
   const [subcategories, setSubcategories] = useState([]);
-  const [sub, setSub] = useState('');
+  const [, setSub] = useState('');
 
   const dispatch = useDispatch();
   const { search } = useSelector((state) => ({ ...state }));
@@ -33,6 +33,7 @@ const Shop = () => {
     loadAllProducts();
     getCategories().then((res) => setCategories(res.data));
     getSubCategories().then((res) => setSubcategories(res.data));
+    // eslint-disable-next-line
   }, []);
 
   const fetchProducts = (arg) => {
@@ -79,7 +80,7 @@ const Shop = () => {
   // Load products on price search
   useEffect(() => {
     fetchProducts({ price });
-  }, [isPrice]);
+  }, [price, isPrice]);
 
   const handleSlider = (value) => {
     // Clear query search

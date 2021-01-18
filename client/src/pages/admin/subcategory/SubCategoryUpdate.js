@@ -22,6 +22,7 @@ const SubCategoryUpdate = ({ history, match }) => {
   useEffect(() => {
     loadSub();
     loadCategories();
+    // eslint-disable-next-line
   }, []);
 
   const loadCategories = () =>
