@@ -110,10 +110,6 @@ exports.applyCouponToUserCart = async (req, res) => {
       { totalAfterDiscount },
       { new: true }
     ).exec();
-    // Valid coupon but applied to cart already
-    if (totalAfterDiscount == updatedCart.totalAfterDiscount) {
-      return res.json({ err: 'The coupon already applied to cart!' });
-    }
     res.json(totalAfterDiscount);
   } catch (err) {
     res.status(400).send('Fail to apply coupon to cart');
