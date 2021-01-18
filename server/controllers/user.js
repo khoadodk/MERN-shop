@@ -2,6 +2,7 @@ const Cart = require('../models/cart');
 const Product = require('../models/product');
 const User = require('../models/user');
 const Coupon = require('../models/coupon');
+const Order = require('../models/order');
 
 exports.userCart = async (req, res) => {
   try {
@@ -113,6 +114,36 @@ exports.applyCouponToUserCart = async (req, res) => {
     res.json(totalAfterDiscount);
   } catch (err) {
     res.status(400).send('Fail to apply coupon to cart');
+    console.log(err);
+  }
+};
+
+exports.createOrder = async (req, res) => {
+  try {
+    const { paymentIntent } = req.body.stripeResponse;
+    const user = await User.findOne({ email: req.user.email }).exec();
+    const { products } = await Cart.findOne({ orderedBy: user._id }).exec();
+    // Save the order to DB
+    const newOrder = await new Order({
+      products,
+      paymentIntent,
+      orderedBy: user._id
+    });
+    // Decreate quantity. Increase sold
+    const bulkOption = products.map((item) => {
+      return {
+        updateOne: {
+          filter: { _id: item.product._id },
+          update: { $inc: { quantity: -item.count, sold: +item.count } }
+        }
+      };
+    });
+
+    const updatedProduct = await Product.bulkWrite(bulkOption, {});
+
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(400).send('Fail to create order');
     console.log(err);
   }
 };

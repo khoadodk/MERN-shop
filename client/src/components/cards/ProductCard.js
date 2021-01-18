@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Tooltip } from 'antd';
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import {
+  EyeOutlined,
+  ShoppingCartOutlined,
+  FrownOutlined
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import StarRating from 'react-star-ratings';
 import { useDispatch } from 'react-redux';
@@ -78,8 +82,12 @@ const ProductCard = ({ product }) => {
             </Link>
           </Tooltip>,
           <Tooltip title={tooltip}>
-            <a onClick={handleAddToCart}>
-              <ShoppingCartOutlined className='text-info' />
+            <a onClick={handleAddToCart} disabled={product.quantity < 1}>
+              {product.quantity < 1 ? (
+                <span className='text-danger'>Out of Stock</span>
+              ) : (
+                <ShoppingCartOutlined className='text-info' />
+              )}
             </a>
           </Tooltip>
         ]}>
