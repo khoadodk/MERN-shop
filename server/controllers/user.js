@@ -161,3 +161,48 @@ exports.listOrders = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.addToWishList = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const user = await User.findOneAndUpdate(
+      {
+        email: req.user.email
+      },
+      { $addToSet: { wishlist: productId } },
+      { new: true }
+    ).exec();
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(400).send('Fail to add to wishlist');
+    console.log(err);
+  }
+};
+
+exports.getProductsFromWishList = async (req, res) => {
+  try {
+    const list = await User.findOne({ email: req.user.email })
+      .select('wishlist')
+      .populate('wishlist')
+      .exec();
+    res.json(list);
+  } catch (err) {
+    res.status(400).send('Fail to get the wishlist');
+    console.log(err);
+  }
+};
+
+exports.removeFromWishList = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const user = await User.findOneAndUpdate(
+      { email: req.user.email },
+      { $pull: { wishlist: productId } }
+    ).exec();
+
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(400).send('Fail to remove from wishlist');
+    console.log(err);
+  }
+};

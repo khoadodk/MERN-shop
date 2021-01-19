@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Card, Tabs, Tooltip } from 'antd';
-import { Link } from 'react-router-dom';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import StarRatings from 'react-star-ratings';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import noImage from '../../images/no-image.png';
 import ProductListItems from './ProductListItems';
 import RatingModal from '../modals/RatingModal';
 import { showAverage } from '../../functions/rating';
+import { addToWishList } from '../../functions/user';
 
 const { TabPane } = Tabs;
 
@@ -18,6 +19,7 @@ const SingleProduct = ({ product, handleChangeRating, rating }) => {
   const [tooltip, setTooltip] = useState('Add to Cart');
 
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => ({ ...state }));
 
   const { title, description, images, _id } = product;
 
@@ -49,6 +51,17 @@ const SingleProduct = ({ product, handleChangeRating, rating }) => {
         payload: uniqueCart
       });
     }
+  };
+
+  const handleAddToWishlist = (e) => {
+    e.preventDefault();
+    addToWishList(user.token, product._id)
+      .then((res) => {
+        toast.success('Added to withlist');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -97,9 +110,11 @@ const SingleProduct = ({ product, handleChangeRating, rating }) => {
               </a>
             </Tooltip>,
 
-            <Link to=''>
-              <HeartOutlined className='text-danger' /> <br /> Add to Wishlist
-            </Link>,
+            <a onClick={handleAddToWishlist} disabled={!user}>
+              <HeartOutlined className='text-danger' /> <br />{' '}
+              {!user ? 'Login to Add to Wishlist' : 'Add to Wishlist'}
+            </a>,
+
             <RatingModal>
               <StarRatings
                 rating={rating}
