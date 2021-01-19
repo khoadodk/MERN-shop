@@ -6,7 +6,7 @@ const AdminNav = () => {
     <nav>
       <ul className='nav flex-column m-2'>
         <li className='nav-item'>
-          <Link to='/admin/dashboard'>Dashboard</Link>
+          <Link to='/admin/dashboard'>Orders</Link>
         </li>
 
         <li className='nav-item'>
