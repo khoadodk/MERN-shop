@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Tooltip } from 'antd';
-import {
-  EyeOutlined,
-  ShoppingCartOutlined,
-  FrownOutlined
-} from '@ant-design/icons';
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import StarRating from 'react-star-ratings';
 import { useDispatch } from 'react-redux';

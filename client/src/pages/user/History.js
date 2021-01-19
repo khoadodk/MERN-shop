@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
+import Invoice from '../../components/Invoice';
 import UserNav from '../../components/navbar/UserNav';
 import { getOrders } from '../../functions/user';
 
@@ -88,16 +90,22 @@ const History = () => {
     </>
   );
 
+  const showDownloadLink = (order) => (
+    <PDFDownloadLink
+      document={<Invoice order={order} />}
+      fileName='invoice.pdf'
+      className='btn btn-sm btn-outline-primary'>
+      Download PDF
+    </PDFDownloadLink>
+  );
+
   const showOrders = () =>
-    orders.map((order) => (
-      <div key={order._id} className='mt-3 card'>
+    orders.map((order, i) => (
+      <div key={i} className='mt-3 card'>
         {showPaymentInfo(order)}
         {showOrderInTable(order)}
-        <div className='row'>
-          <div className='col text-center'>
-            <p>PDF download</p>
-          </div>
-        </div>
+
+        <div className='text-center'>{showDownloadLink(order)}</div>
       </div>
     ));
 
@@ -107,7 +115,10 @@ const History = () => {
         <div className='col-md-3'>
           <UserNav />
         </div>
-        <div className='col-md-6'>{orders && showOrders()}</div>
+        <div className='col-md-6'>
+          <h4 className='text-center'>Order History</h4>
+          {orders && showOrders()}
+        </div>
       </div>
     </div>
   );
