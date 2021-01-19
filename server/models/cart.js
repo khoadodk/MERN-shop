@@ -9,9 +9,10 @@ const cartSchema = new mongoose.Schema(
           type: ObjectId,
           ref: 'Product'
         },
-        title: String,
         count: Number,
-        price: String
+        title: String,
+        shipping: String,
+        price: Number
       }
     ],
     cartTotal: Number,

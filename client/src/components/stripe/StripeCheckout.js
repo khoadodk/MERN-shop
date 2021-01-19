@@ -32,7 +32,6 @@ const StripeCheckout = () => {
 
   const loadClientKey = () =>
     createPaymentIntent(user.token, coupon).then((res) => {
-      console.log('create payment intent', res.data);
       const { clientSecret, cartTotal, totalAfterDiscount, payable } = res.data;
       setClientSecret(clientSecret);
       setCartTotal(cartTotal);

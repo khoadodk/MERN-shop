@@ -10,7 +10,9 @@ const orderSchema = new mongoose.Schema(
           ref: 'Product'
         },
         count: Number,
-        color: String
+        title: String,
+        shipping: String,
+        price: Number
       }
     ],
     paymentIntent: {},
@@ -25,7 +27,7 @@ const orderSchema = new mongoose.Schema(
         'Completed'
       ]
     },
-    orderBy: { type: ObjectId, ref: 'User' }
+    orderedBy: { type: ObjectId, ref: 'User' }
   },
   { timestamps: true }
 );

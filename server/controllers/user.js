@@ -121,6 +121,7 @@ exports.applyCouponToUserCart = async (req, res) => {
 exports.createOrder = async (req, res) => {
   try {
     const { paymentIntent } = req.body.stripeResponse;
+
     const user = await User.findOne({ email: req.user.email }).exec();
     const { products } = await Cart.findOne({ orderedBy: user._id }).exec();
     // Save the order to DB
@@ -128,7 +129,7 @@ exports.createOrder = async (req, res) => {
       products,
       paymentIntent,
       orderedBy: user._id
-    });
+    }).save();
     // Decreate quantity. Increase sold
     const bulkOption = products.map((item) => {
       return {
@@ -144,6 +145,19 @@ exports.createOrder = async (req, res) => {
     res.json({ ok: true });
   } catch (err) {
     res.status(400).send('Fail to create order');
+    console.log(err);
+  }
+};
+
+exports.listOrders = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email }).exec();
+    const orders = await Order.find({ orderedBy: user._id })
+      .populate('products.product')
+      .exec();
+    res.json(orders);
+  } catch (err) {
+    res.status(400).send('Fail to list orders');
     console.log(err);
   }
 };
