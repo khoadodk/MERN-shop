@@ -56,6 +56,9 @@ const History = () => {
         <div className='col-md-6'>
           <h4 className='text-center'>Order History</h4>
           {orders && showOrders()}
+          {orders.length < 1 && (
+            <p className='text-center'>You don't have any orders.</p>
+          )}
         </div>
       </div>
     </div>

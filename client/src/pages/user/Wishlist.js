@@ -57,8 +57,8 @@ const Wishlist = () => {
           {loading ? (
             <Loading />
           ) : (
-            <div>
-              <h4 className='text-center'>Wish List</h4>
+            <>
+              <h4>Wish List</h4>
               <div className='row'>
                 {wishlist &&
                   wishlist.map((p) => (
@@ -71,8 +71,12 @@ const Wishlist = () => {
                       <ProductCard product={p} />
                     </div>
                   ))}
+
+                {wishlist.length < 1 && (
+                  <p>You don't have any products in your wishlist</p>
+                )}
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
