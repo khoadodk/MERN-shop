@@ -104,16 +104,19 @@ const SingleProduct = ({ product, handleChangeRating, rating }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
+              {/* eslint-disable-next-line  */}
               <a onClick={handleAddToCart}>
                 <ShoppingCartOutlined className='text-info' /> <br /> Add to
                 Cart
               </a>
             </Tooltip>,
-
-            <a onClick={handleAddToWishlist} disabled={!user}>
-              <HeartOutlined className='text-danger' /> <br />{' '}
-              {!user ? 'Login to Add to Wishlist' : 'Add to Wishlist'}
-            </a>,
+            <>
+              {/* eslint-disable-next-line  */}
+              <a onClick={handleAddToWishlist} disabled={!user}>
+                <HeartOutlined className='text-danger' /> <br />{' '}
+                {!user ? 'Login to Add to Wishlist' : 'Add to Wishlist'}
+              </a>
+            </>,
 
             <RatingModal>
               <StarRatings

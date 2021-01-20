@@ -78,6 +78,7 @@ const ProductCard = ({ product }) => {
             </Link>
           </Tooltip>,
           <Tooltip title={tooltip}>
+            {/* eslint-disable-next-line  */}
             <a onClick={handleAddToCart} disabled={product.quantity < 1}>
               {product.quantity < 1 ? (
                 <span className='text-danger'>Out of Stock</span>
