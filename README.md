@@ -21,3 +21,4 @@ Tech stack: React, Redux, Ant Design, Node.js, Express, MongoDB, Firebase...
 ## What to improve
 
 1. UI/mobile responsive
+2. SEO optimization

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import SingleProduct from '../components/cards/SingleProduct';
-import { getProduct, getRelated, postProductStar } from '../functions/product';
-import Loading from '../components/loading/Loading';
-import ProductCard from '../components/cards/ProductCard';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import SingleProduct from "../components/cards/SingleProduct";
+import { getProduct, getRelated, postProductStar } from "../functions/product";
+import Loading from "../components/loading/Loading";
+import ProductCard from "../components/cards/ProductCard";
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
@@ -13,6 +13,7 @@ const Product = ({ match }) => {
 
   const { _id } = match.params;
   const { user } = useSelector((state) => ({ ...state }));
+  console.log(user);
 
   useEffect(() => {
     loadSingleProduct();
@@ -48,12 +49,12 @@ const Product = ({ match }) => {
   };
 
   return (
-    <div className='container-fluid'>
+    <div className="container-fluid">
       {loading ? (
         <Loading />
       ) : (
         <>
-          <div className='mb-5'>
+          <div className="mb-5">
             <SingleProduct
               product={product}
               handleChangeRating={handleChangeRating}
@@ -61,11 +62,11 @@ const Product = ({ match }) => {
             />
           </div>
           <hr />
-          <h4 className='text-center py-3'>Related Products</h4>
-          <div className='row pb-3'>
+          <h4 className="text-center py-3">Related Products</h4>
+          <div className="row pb-3">
             {related.length ? (
               related.map((r) => (
-                <div className='col-md-4' key={r._id}>
+                <div className="col-md-4" key={r._id}>
                   <ProductCard product={r} />
                 </div>
               ))
