@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { Card, Tooltip } from 'antd';
-import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import StarRating from 'react-star-ratings';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { Card, Tooltip } from "antd";
+import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import StarRating from "react-star-ratings";
+import { useDispatch } from "react-redux";
 
-import noImage from '../../images/no-image.png';
-import { showAverage } from '../../functions/rating';
+import noImage from "../../images/no-image.png";
+import { showAverage } from "../../functions/rating";
 
 const ProductCard = ({ product }) => {
-  const [tooltip, setTooltip] = useState('Add to Cart');
+  const [tooltip, setTooltip] = useState("Add to Cart");
 
   const dispatch = useDispatch();
 
-  const { title, description, images, _id } = product;
+  const { title, price, images, _id } = product;
 
   const handleAddToCart = () => {
-    setTooltip('Added');
+    setTooltip("Added");
     let cart = [];
-    if (typeof window !== 'undefined') {
-      if (localStorage.getItem('cart')) {
-        cart = JSON.parse(localStorage.getItem('cart'));
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
       }
       cart.push({
         ...product,
-        count: 1
+        count: 1,
       });
       // Remove duplicates
       const uniqueCart = cart.filter((obj, index) => {
@@ -36,16 +36,16 @@ const ProductCard = ({ product }) => {
           })
         );
       });
-      localStorage.setItem('cart', JSON.stringify(uniqueCart));
+      localStorage.setItem("cart", JSON.stringify(uniqueCart));
 
       dispatch({
-        type: 'ADD_TO_CART',
-        payload: uniqueCart
+        type: "ADD_TO_CART",
+        payload: uniqueCart,
       });
 
       dispatch({
-        type: 'SET_VISIBLE',
-        payload: true
+        type: "SET_VISIBLE",
+        payload: true,
       });
     }
   };
@@ -55,9 +55,9 @@ const ProductCard = ({ product }) => {
       {product && product.ratings && product.ratings.length > 0 ? (
         showAverage(product)
       ) : (
-        <div className='text-center py-2'>
+        <div className="text-center py-2">
           <span>
-            <StarRating starDimension='2em' editing={false} /> (0)
+            <StarRating starDimension="2em" editing={false} /> (0)
           </span>
         </div>
       )}
@@ -66,32 +66,29 @@ const ProductCard = ({ product }) => {
         cover={
           <img
             src={images.length ? images[0].url : noImage}
-            style={{ height: '200px', objectFit: 'cover' }}
-            alt='product card cover'
-            className='p-1'
+            style={{ height: "400px", objectFit: "contain" }}
+            alt="product card cover"
           />
         }
         actions={[
-          <Tooltip title='Details'>
+          <Tooltip title="Details">
             <Link to={`/product/${_id}`}>
-              <EyeOutlined className='text-info' />
+              <EyeOutlined className="text-info" />
             </Link>
           </Tooltip>,
           <Tooltip title={tooltip}>
             {/* eslint-disable-next-line  */}
             <a onClick={handleAddToCart} disabled={product.quantity < 1}>
               {product.quantity < 1 ? (
-                <span className='text-danger'>Out of Stock</span>
+                <span className="text-danger">Out of Stock</span>
               ) : (
-                <ShoppingCartOutlined className='text-info' />
+                <ShoppingCartOutlined className="text-info" />
               )}
             </a>
-          </Tooltip>
-        ]}>
-        <Card.Meta
-          title={title}
-          description={`${description && description.substring(0, 40)}`}
-        />
+          </Tooltip>,
+        ]}
+      >
+        <Card.Meta title={title} description={`$${price}`} />
       </Card>
     </>
   );

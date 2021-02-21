@@ -1,4 +1,4 @@
-# MERN shop
+# WOODECOR - eCommerce MERN shop
 
 DEMO: https://mern-shop.netlify.app
 <br>
@@ -20,5 +20,4 @@ Tech stack: React, Redux, Ant Design, Node.js, Express, MongoDB, Firebase...
 
 ## What to improve
 
-1. UI/mobile responsive
-2. SEO optimization
+<del>1. UI/mobile responsive</del> 2. SEO optimization 3. Order notification via SMS/mail
