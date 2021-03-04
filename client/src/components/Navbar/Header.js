@@ -47,9 +47,9 @@ const Header = () => {
         mode="horizontal"
         style={{ lineHeight: "60px" }}
       >
-        <Item key="home">
-          <Link to="/">WOODECOR</Link>
-        </Item>
+        <Link to="/" className="logo">
+          WOODECOR
+        </Link>
 
         <Item key="shop" icon={<ShoppingOutlined />}>
           <Link to="/shop">Shop</Link>
